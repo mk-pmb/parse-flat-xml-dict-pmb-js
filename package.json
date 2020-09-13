@@ -1,0 +1,34 @@
+{ "name": "parse-flat-xml-dict-pmb",
+  "version": "0.0.1",
+  "description": "Parse an XML fragment that contains only a very trivial key-value structure.",
+  "keywords": [
+    "dict",
+    "xml"
+  ],
+
+  "author": "M.K. (https://github.com/mk-pmb)",
+  "homepage": "https://github.com/mk-pmb/parse-flat-xml-dict-pmb-js/#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mk-pmb/parse-flat-xml-dict-pmb-js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mk-pmb/parse-flat-xml-dict-pmb-js/issues"
+  },
+  "contributors": [],
+
+  "private": false, "license": "ISC",
+
+  "main": "xd.mjs",
+  "scripts": { "test": "nodemjs test/all.mjs" },
+  "directories": { "test": "test" },
+
+  "dependencies": {},
+  "devDependencies": {
+    "equal-pmb": "^0.1.6",
+    "lib-demo-util-160404": "^0.1.13"
+  },
+
+
+  "npm vs. BOM = Unexpected token": "-*- coding: UTF-8 -*-"
+}
