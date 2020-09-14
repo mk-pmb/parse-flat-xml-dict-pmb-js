@@ -12,12 +12,14 @@ const xmlFrag = `
   <pizza>Tonno</pizza>
   <salad>Cesar</salad>
   <note>${msg}</note>
+  <self-close />
   <foo>&quot;&amp;&#39;&lt;&gt;</foo>
   `;
 eq(xd(xmlFrag), {
   pizza: 'Tonno',
   salad: 'Cesar',
   note: msg,
+  'self-close': '',
   foo: `"&'<>`,
 });
 

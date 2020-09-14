@@ -1,5 +1,5 @@
 { "name": "parse-flat-xml-dict-pmb",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Parse an XML fragment that contains only a very trivial key-value structure.",
   "keywords": [
     "dict",

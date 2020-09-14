@@ -3,7 +3,7 @@
 import getOwn from 'getown';
 import xmldecode from 'xmldecode';
 
-const elemTagRx = /\s*<(\/?)([A-Za-z0-9_\-]+)>\s*/;
+const elemTagRx = /\s*<(\/?)([A-Za-z0-9_\-]+)\s*(\/?)>\s*/;
 const quot = JSON.stringify;
 
 const dbg = Boolean;
@@ -27,8 +27,9 @@ const EX = function parseFlatXmlDict(xml, opt) {
     const n = m.index + m[0].length;
     charsParsed += n;
     remain = remain.slice(n);
-    m.slash = m[1];
+    m.closingSlash = m[1];
     m.tagName = m[2];
+    m.selfClose = m[3];
     dbg(m);
     return m;
   }
@@ -39,26 +40,29 @@ const EX = function parseFlatXmlDict(xml, opt) {
     throw new Error(em);
   }
 
-  function learn() {
-    let text = xmldecode(found.pre);
-    const had = getOwn(dict, key);
-    if (had !== undefined) {
-      text = (opt.combineTexts || unexp('duplicate key name'))(had, text);
+  function learn(xmlText) {
+    let newText = xmldecode(xmlText);
+    const oldValue = getOwn(dict, key);
+    if (oldValue !== undefined) {
+      newText = (opt.combineTexts || unexp('duplicate key name')
+      )(oldValue, newText, key, dict);
     }
-    dbg({ learn: key, text });
-    dict[key] = text;
+    dbg({ learn: key, newText });
+    dict[key] = newText;
+    key = null;
   }
 
   while (eat(elemTagRx)) {
-    if (found.slash) {
+    if (found.closingSlash) {
       if (!key) { unexp('closing tag'); }
-      learn();
-      key = null;
+      learn(found.pre);
     } else {
       if (found.pre.trim()) { unexp('printable character'); }
       if (key) { unexp('opening tag'); }
       key = found.tagName;
-      dbg({ key });
+      const { selfClose } = found;
+      dbg({ key, selfClose });
+      if (selfClose) { learn(''); }
     }
   }
   if (remain.trim()) { unexp('trailing printable character in front of tag'); }
